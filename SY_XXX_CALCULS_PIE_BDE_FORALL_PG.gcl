@@ -1,0 +1,76 @@
+Variable tp
+Variable pc
+Variable tp_min
+Variable tp_max
+Variable tp_moy
+Variable sum
+Variable c1 As Integer
+Variable HauteDem[33]
+Variable c2 As Integer
+Variable DiffHDem1
+Variable DiffHDem2
+Variable DiffHDem3
+Variable DiffHDem4
+Variable DiffHDem5
+Constant PcMinPermis = 21
+Variable diff
+
+DoEvery 33S
+  sum = 0 c1 = 0
+  tp_min = 99 tp_max = 0
+
+  ForAll  BDEs In "BDE*:BDE1 402*"
+    tp = Read ("BDE:" & BDEs.Object_Name & ".tp")
+    pc = Read ("BDE:" & BDEs.Object_Name & ".pc_occ")
+
+    sum = sum + tp
+    c1 = c1 + 1
+    tp_moy = sum / c1
+    tp_min = Min (tp_min, tp)
+    tp_max = Max (tp_max, tp)
+
+    HauteDem[c1] = tp - Max (pc, PcMinPermis)
+  End For
+End Do
+
+'3075QB_SY_UC2 T_PIE_MIN' = tp_min
+'3075QB_SY_UC2 T_PIE_MAX' = tp_max
+'3075QB_SY_UC2 T_PIE_MOY' = tp_moy
+
+
+//Moyenne des 4 plus hauts differentiels de temperatures de pieces
+DoEvery 1M
+  DiffHDem1 = - 150
+  DiffHDem2 = - 150
+  DiffHDem3 = - 150
+  DiffHDem4 = - 150
+  DiffHDem5 = - 150
+
+  For c2 = 1 To 33 Step 1
+    If HauteDem[c2] > DiffHDem1 Then
+      DiffHDem5 = DiffHDem4
+      DiffHDem4 = DiffHDem3
+      DiffHDem3 = DiffHDem2
+      DiffHDem2 = DiffHDem1
+      DiffHDem1 = HauteDem[c2]
+    ElseIf  HauteDem[c2] > DiffHDem2 Then
+      DiffHDem5 = DiffHDem4
+      DiffHDem4 = DiffHDem3
+      DiffHDem3 = DiffHDem2
+      DiffHDem2 = HauteDem[c2]
+    ElseIf  HauteDem[c2] > DiffHDem3 Then
+      DiffHDem5 = DiffHDem4
+      DiffHDem4 = DiffHDem3
+      DiffHDem3 = HauteDem[c2]
+    ElseIf  HauteDem[c2] > DiffHDem4 Then
+      DiffHDem5 = DiffHDem4
+      DiffHDem4 = HauteDem[c2]
+    ElseIf  HauteDem[c2] > DiffHDem5 Then
+      DiffHDem5 = HauteDem[c2]
+    End If
+  End For
+End Do
+
+'3075QB_SY_UC2 DIFF_PIE_MOY' = Average (DiffHDem1, DiffHDem2, DiffHDem3, DiffHDem4, DiffHDem5)
+
+//Fin

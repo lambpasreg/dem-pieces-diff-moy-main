@@ -1,0 +1,114 @@
+Variable tp
+Variable pc
+Variable tp_min
+Variable tp_max
+Variable tp_moy
+Variable sum
+Variable c1 As Integer
+Variable HauteDem[33]
+Variable XFER_TP[33]
+Variable XFER_PC[33]
+Variable i As Integer
+Variable c2 As Integer
+Variable DiffHDem1
+Variable DiffHDem2
+Variable DiffHDem3
+Variable DiffHDem4
+Variable DiffHDem5
+Constant PcMinPermis = 21
+Variable diff
+
+XFER_TP[1] = 30101.AI1001 XFER_PC[1] = 30101.AV10010
+XFER_TP[2] = 30102.AI1001 XFER_PC[2] = 30101.AV10010
+XFER_TP[3] = 30103.AI1001 XFER_PC[3] = 30101.AV10010
+XFER_TP[4] = 30104.AI1001 XFER_PC[4] = 30101.AV10010
+XFER_TP[5] = 30105.AI1001 XFER_PC[5] = 30101.AV10010
+XFER_TP[6] = 30106.AI1001 XFER_PC[6] = 30101.AV10010
+XFER_TP[7] = 30107.AI1001 XFER_PC[7] = 30101.AV10010
+XFER_TP[8] = 30108.AI1001 XFER_PC[8] = 30101.AV10010
+XFER_TP[9] = 30109.AI1001 XFER_PC[9] = 30101.AV10010
+XFER_TP[10] = 30110.AI1001 XFER_PC[10] = 30101.AV10010
+XFER_TP[11] = 30111.AI1001 XFER_PC[11] = 30101.AV10010
+XFER_TP[12] = 30112.AI1001 XFER_PC[12] = 30101.AV10010
+XFER_TP[13] = 30113.AI1001 XFER_PC[13] = 30101.AV10010
+XFER_TP[14] = 30114.AI1001 XFER_PC[14] = 30101.AV10010
+XFER_TP[15] = 30115.AI1001 XFER_PC[15] = 30101.AV10010
+XFER_TP[16] = 30116.AI1001 XFER_PC[16] = 30101.AV10010
+XFER_TP[17] = 30117.AI1001 XFER_PC[17] = 30101.AV10010
+XFER_TP[18] = 30118.AI1001 XFER_PC[18] = 30101.AV10010
+XFER_TP[19] = 30119.AI1001 XFER_PC[19] = 30101.AV10010
+XFER_TP[20] = 30120.AI1001 XFER_PC[20] = 30101.AV10010
+XFER_TP[21] = 30121.AI1001 XFER_PC[21] = 30101.AV10010
+XFER_TP[22] = 30122.AI1001 XFER_PC[22] = 30101.AV10010
+XFER_TP[23] = 30123.AI1001 XFER_PC[23] = 30101.AV10010
+XFER_TP[24] = 30124.AI1001 XFER_PC[24] = 30101.AV10010
+XFER_TP[25] = 30125.AI1001 XFER_PC[25] = 30101.AV10010
+XFER_TP[26] = 30126.AI1001 XFER_PC[26] = 30101.AV10010
+XFER_TP[27] = 30127.AI1001 XFER_PC[27] = 30101.AV10010
+XFER_TP[28] = 30128.AI1001 XFER_PC[28] = 30101.AV10010
+XFER_TP[29] = 30129.AI1001 XFER_PC[29] = 30101.AV10010
+XFER_TP[30] = 30130.AI1001 XFER_PC[30] = 30101.AV10010
+XFER_TP[31] = 30131.AI1001 XFER_PC[31] = 30101.AV10010
+XFER_TP[32] = 30132.AI1001 XFER_PC[32] = 30101.AV10010
+XFER_TP[33] = 30133.AI1001 XFER_PC[33] = 30101.AV10010
+
+
+DoEvery 33S
+  sum = 0 c1 = 0
+  tp_min = 99 tp_max = 0
+
+  For i = 1 To 33 Step 1
+    tp = XFER_TP[i]
+    pc = XFER_PC[i]
+
+    sum = sum + tp
+    c1 = c1 + 1
+    tp_moy = sum / c1
+    tp_min = Min (tp_min, tp)
+    tp_max = Max (tp_max, tp)
+
+    HauteDem[c1] = tp - Max (pc, PcMinPermis)
+  End For
+End Do
+
+'SY_UC2 T_PIE_MIN' = tp_min
+'SY_UC2 T_PIE_MAX' = tp_max
+'SY_UC2 T_PIE_MOY' = tp_moy
+
+
+//Moyenne des 4 plus hauts differentiels de temperatures de pieces
+DoEvery 1M
+  DiffHDem1 = - 150
+  DiffHDem2 = - 150
+  DiffHDem3 = - 150
+  DiffHDem4 = - 150
+  DiffHDem5 = - 150
+
+  For c2 = 1 To 33 Step 1
+    If HauteDem[c2] > DiffHDem1 Then
+      DiffHDem5 = DiffHDem4
+      DiffHDem4 = DiffHDem3
+      DiffHDem3 = DiffHDem2
+      DiffHDem2 = DiffHDem1
+      DiffHDem1 = HauteDem[c2]
+    ElseIf  HauteDem[c2] > DiffHDem2 Then
+      DiffHDem5 = DiffHDem4
+      DiffHDem4 = DiffHDem3
+      DiffHDem3 = DiffHDem2
+      DiffHDem2 = HauteDem[c2]
+    ElseIf  HauteDem[c2] > DiffHDem3 Then
+      DiffHDem5 = DiffHDem4
+      DiffHDem4 = DiffHDem3
+      DiffHDem3 = HauteDem[c2]
+    ElseIf  HauteDem[c2] > DiffHDem4 Then
+      DiffHDem5 = DiffHDem4
+      DiffHDem4 = HauteDem[c2]
+    ElseIf  HauteDem[c2] > DiffHDem5 Then
+      DiffHDem5 = HauteDem[c2]
+    End If
+  End For
+End Do
+
+'SY_UC2 DIFF_PIE_MOY' = Average (DiffHDem1, DiffHDem2, DiffHDem3, DiffHDem4, DiffHDem5)
+
+//Fin

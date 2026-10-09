@@ -1,0 +1,156 @@
+Variable HauteDem[29]
+Variable Compteur As Integer
+Variable DiffHDem1
+Variable DiffHDem2
+Variable DiffHDem3
+Variable DiffHDem4
+Variable DiffHDem5
+Variable DiffHDem6
+Variable PcMinPermis
+PcMinPermis = 21
+ 
+
+//Moyenne des 4 plus hauts differentiels de temperatures de pieces
+DoEvery 5M
+  HauteDem[1] = (Read ("BDE:BDE1 10101.tp")) - Max ((Read ("BDE:BDE1 10101.pc_occ")), PcMinPermis)
+  HauteDem[2] = (Read ("BDE:BDE1 10102.tp")) - Max ((Read ("BDE:BDE1 10102.pc_occ")), PcMinPermis)
+  HauteDem[3] = (Read ("BDE:BDE1 10103.tp")) - Max ((Read ("BDE:BDE1 10103.pc_occ")), PcMinPermis)
+  HauteDem[4] = (Read ("BDE:BDE1 10104.tp")) - Max ((Read ("BDE:BDE1 10104.pc_occ")), PcMinPermis)
+  HauteDem[5] = (Read ("BDE:BDE1 10105.tp")) - Max ((Read ("BDE:BDE1 10105.pc_occ")), PcMinPermis)
+  HauteDem[6] = (Read ("BDE:BDE1 10106.tp")) - Max ((Read ("BDE:BDE1 10106.pc_occ")), PcMinPermis)
+  HauteDem[7] = (Read ("BDE:BDE1 10107.tp")) - Max ((Read ("BDE:BDE1 10107.pc_occ")), PcMinPermis)
+  HauteDem[8] = (Read ("BDE:BDE1 10108.tp")) - Max ((Read ("BDE:BDE1 10108.pc_occ")), PcMinPermis)
+  HauteDem[9] = (Read ("BDE:BDE1 10109.tp")) - Max ((Read ("BDE:BDE1 10109.pc_occ")), PcMinPermis)
+  HauteDem[10] = (Read ("BDE:BDE1 10110.tp")) - Max ((Read ("BDE:BDE1 10110.pc_occ")), PcMinPermis)
+  HauteDem[11] = (Read ("BDE:BDE1 10111.tp")) - Max ((Read ("BDE:BDE1 10111.pc_occ")), PcMinPermis)
+  HauteDem[12] = (Read ("BDE:BDE1 10112.tp")) - Max ((Read ("BDE:BDE1 10112.pc_occ")), PcMinPermis)
+  HauteDem[13] = (Read ("BDE:BDE1 10113.tp")) - Max ((Read ("BDE:BDE1 10113.pc_occ")), PcMinPermis)
+  HauteDem[14] = (Read ("BDE:BDE1 10114.tp")) - Max ((Read ("BDE:BDE1 10114.pc_occ")), PcMinPermis)
+  HauteDem[15] = (Read ("BDE:BDE1 10115.tp")) - Max ((Read ("BDE:BDE1 10115.pc_occ")), PcMinPermis)
+  HauteDem[16] = (Read ("BDE:BDE1 10116.tp")) - Max ((Read ("BDE:BDE1 10116.pc_occ")), PcMinPermis)
+  HauteDem[17] = (Read ("BDE:BDE1 10117.tp")) - Max ((Read ("BDE:BDE1 10117.pc_occ")), PcMinPermis)
+  HauteDem[18] = (Read ("BDE:BDE1 10118.tp")) - Max ((Read ("BDE:BDE1 10118.pc_occ")), PcMinPermis)
+  HauteDem[19] = (Read ("BDE:BDE1 10119.tp")) - Max ((Read ("BDE:BDE1 10119.pc_occ")), PcMinPermis)
+  HauteDem[20] = (Read ("BDE:BDE1 10120.tp")) - Max ((Read ("BDE:BDE1 10120.pc_occ")), PcMinPermis)
+  HauteDem[21] = (Read ("BDE:BDE1 10121.tp")) - Max ((Read ("BDE:BDE1 10121.pc_occ")), PcMinPermis)
+  HauteDem[22] = (Read ("BDE:BDE1 10122.tp")) - Max ((Read ("BDE:BDE1 10122.pc_occ")), PcMinPermis)
+  HauteDem[23] = (Read ("BDE:BDE1 10123.tp")) - Max ((Read ("BDE:BDE1 10123.pc_occ")), PcMinPermis)
+  HauteDem[24] = (Read ("BDE:BDE1 10124.tp")) - Max ((Read ("BDE:BDE1 10124.pc_occ")), PcMinPermis)
+  HauteDem[25] = (Read ("BDE:BDE1 10125.tp")) - Max ((Read ("BDE:BDE1 10125.pc_occ")), PcMinPermis)
+  HauteDem[26] = (Read ("BDE:BDE1 10126.tp")) - Max ((Read ("BDE:BDE1 10126.pc_occ")), PcMinPermis)
+  HauteDem[27] = (Read ("BDE:BDE1 10127.tp")) - Max ((Read ("BDE:BDE1 10127.pc_occ")), PcMinPermis)
+  HauteDem[28] = (Read ("BDE:BDE1 10128.tp")) - Max ((Read ("BDE:BDE1 10128.pc_occ")), PcMinPermis)
+  HauteDem[29] = (Read ("BDE:BDE1 10129.tp")) - Max ((Read ("BDE:BDE1 10129.pc_occ")), PcMinPermis)
+
+
+DiffHDem1 = - 150
+DiffHDem2 = - 150
+DiffHDem3 = - 150
+DiffHDem4 = - 150
+DiffHDem5 = - 150
+DiffHDem6 = - 150
+
+For Compteur = 1 To 29 Step 1
+ If HauteDem[Compteur] > DiffHDem1 Then
+  DiffHDem6 = DiffHDem5
+  DiffHDem5 = DiffHDem4
+  DiffHDem4 = DiffHDem3
+  DiffHDem3 = DiffHDem2
+  DiffHDem2 = DiffHDem1
+  DiffHDem1 = HauteDem[Compteur]
+ ElseIf  HauteDem[Compteur] > DiffHDem2 Then
+  DiffHDem6 = DiffHDem5
+  DiffHDem5 = DiffHDem4
+  DiffHDem4 = DiffHDem3
+  DiffHDem3 = DiffHDem2
+  DiffHDem2 = HauteDem[Compteur]
+ ElseIf  HauteDem[Compteur] > DiffHDem3 Then
+  DiffHDem6 = DiffHDem5
+  DiffHDem5 = DiffHDem4
+  DiffHDem4 = DiffHDem3
+  DiffHDem3 = HauteDem[Compteur]
+ ElseIf  HauteDem[Compteur] > DiffHDem4 Then
+  DiffHDem6 = DiffHDem5
+  DiffHDem5 = DiffHDem4
+  DiffHDem4 = HauteDem[Compteur]
+ ElseIf  HauteDem[Compteur] > DiffHDem5 Then
+  DiffHDem6 = DiffHDem5
+  DiffHDem5 = HauteDem[Compteur]
+ ElseIf  HauteDem[Compteur] > DiffHDem6 Then
+  DiffHDem6 = HauteDem[Compteur]
+ End If
+End For
+
+End Do
+
+///'SY_AC1 DIFF_PIE_4H_MOY' = Average (DiffHDem2, DiffHDem3, DiffHDem4, DiffHDem5)
+
+
+//Derogation
+///'SY_xxx DEROG' = (Read ("BDE:BDE1 10101.derog")) Or (Read ("BDE:BDE1 10102.derog")) Or
+                 ///(Read ("BDE:BDE1 10103.derog")) Or (Read ("BDE:BDE1 10104.derog")) Or
+                 ///(Read ("BDE:BDE1 10105.derog")) Or (Read ("BDE:BDE1 10106.derog")) Or
+                 ///(Read ("BDE:BDE1 10107.derog")) Or (Read ("BDE:BDE1 10108.derog")) Or
+                 ///(Read ("BDE:BDE1 10109.derog")) Or (Read ("BDE:BDE1 10110.derog")) Or
+                 ///(Read ("BDE:BDE1 10111.derog")) Or (Read ("BDE:BDE1 10112.derog")) Or
+                 ///(Read ("BDE:BDE1 10113.derog")) Or (Read ("BDE:BDE1 10114.derog")) Or
+                 ///(Read ("BDE:BDE1 10115.derog")) Or (Read ("BDE:BDE1 10116.derog")) Or
+                 ///(Read ("BDE:BDE1 10117.derog")) Or (Read ("BDE:BDE1 10118.derog")) Or
+                 ///(Read ("BDE:BDE1 10119.derog")) Or (Read ("BDE:BDE1 10120.derog")) Or
+                 ///(Read ("BDE:BDE1 10121.derog")) Or (Read ("BDE:BDE1 10122.derog")) Or
+                 ///(Read ("BDE:BDE1 10123.derog")) Or (Read ("BDE:BDE1 10124.derog")) Or
+                 ///(Read ("BDE:BDE1 10125.derog")) Or (Read ("BDE:BDE1 10126.derog")) Or
+                 ///(Read ("BDE:BDE1 10127.derog")) Or (Read ("BDE:BDE1 10128.derog")) Or
+                 ///(Read ("BDE:BDE1 10129.derog"))
+
+
+//Temperature min, max et differentiel moyen
+'SY_xxx T_PIE_MIN' = Min ((Read ("BDE:BDE1 10101.tp")), (Read ("BDE:BDE1 10102.tp")),
+                          (Read ("BDE:BDE1 10103.tp")), (Read ("BDE:BDE1 10104.tp")),
+                          (Read ("BDE:BDE1 10105.tp")), (Read ("BDE:BDE1 10106.tp")),
+                          (Read ("BDE:BDE1 10107.tp")), (Read ("BDE:BDE1 10108.tp")),
+                          (Read ("BDE:BDE1 10109.tp")), (Read ("BDE:BDE1 10110.tp")),
+                          (Read ("BDE:BDE1 10111.tp")), (Read ("BDE:BDE1 10112.tp")),
+                          (Read ("BDE:BDE1 10113.tp")), (Read ("BDE:BDE1 10114.tp")),
+                          (Read ("BDE:BDE1 10115.tp")), (Read ("BDE:BDE1 10116.tp")),
+                          (Read ("BDE:BDE1 10117.tp")), (Read ("BDE:BDE1 10118.tp")),
+                          (Read ("BDE:BDE1 10119.tp")), (Read ("BDE:BDE1 10120.tp")),
+                          (Read ("BDE:BDE1 10121.tp")), (Read ("BDE:BDE1 10122.tp")),
+                          (Read ("BDE:BDE1 10123.tp")), (Read ("BDE:BDE1 10124.tp")),
+                          (Read ("BDE:BDE1 10125.tp")), (Read ("BDE:BDE1 10126.tp")),
+                          (Read ("BDE:BDE1 10127.tp")), (Read ("BDE:BDE1 10128.tp")),
+                          (Read ("BDE:BDE1 10129.tp")))
+                
+
+'SY_xxx T_PIE_MAX' = Max ((Read ("BDE:BDE1 10101.tp")), (Read ("BDE:BDE1 10102.tp")),
+                          (Read ("BDE:BDE1 10103.tp")), (Read ("BDE:BDE1 10104.tp")),
+                          (Read ("BDE:BDE1 10105.tp")), (Read ("BDE:BDE1 10106.tp")),
+                          (Read ("BDE:BDE1 10107.tp")), (Read ("BDE:BDE1 10108.tp")),
+                          (Read ("BDE:BDE1 10109.tp")), (Read ("BDE:BDE1 10110.tp")),
+                          (Read ("BDE:BDE1 10111.tp")), (Read ("BDE:BDE1 10112.tp")),
+                          (Read ("BDE:BDE1 10113.tp")), (Read ("BDE:BDE1 10114.tp")),
+                          (Read ("BDE:BDE1 10115.tp")), (Read ("BDE:BDE1 10116.tp")),
+                          (Read ("BDE:BDE1 10117.tp")), (Read ("BDE:BDE1 10118.tp")),
+                          (Read ("BDE:BDE1 10119.tp")), (Read ("BDE:BDE1 10120.tp")),
+                          (Read ("BDE:BDE1 10121.tp")), (Read ("BDE:BDE1 10122.tp")),
+                          (Read ("BDE:BDE1 10123.tp")), (Read ("BDE:BDE1 10124.tp")),
+                          (Read ("BDE:BDE1 10125.tp")), (Read ("BDE:BDE1 10126.tp")),
+                          (Read ("BDE:BDE1 10127.tp")), (Read ("BDE:BDE1 10128.tp")),
+                          (Read ("BDE:BDE1 10129.tp")))
+
+
+'SY_xxx DIFF_PIE_MOY' = Average ((Read ("BDE:BDE1 10101.diff_tp")), (Read ("BDE:BDE1 10102.diff_tp")),
+                                 (Read ("BDE:BDE1 10103.diff_tp")), (Read ("BDE:BDE1 10104.diff_tp")),
+                                 (Read ("BDE:BDE1 10105.diff_tp")), (Read ("BDE:BDE1 10106.diff_tp")),
+                                 (Read ("BDE:BDE1 10107.diff_tp")), (Read ("BDE:BDE1 10108.diff_tp")),
+                                 (Read ("BDE:BDE1 10109.diff_tp")), (Read ("BDE:BDE1 10110.diff_tp")),
+                                 (Read ("BDE:BDE1 10111.diff_tp")), (Read ("BDE:BDE1 10112.diff_tp")),
+                                 (Read ("BDE:BDE1 10113.diff_tp")), (Read ("BDE:BDE1 10114.diff_tp")),
+                                 (Read ("BDE:BDE1 10115.diff_tp")), (Read ("BDE:BDE1 10116.diff_tp")),
+                                 (Read ("BDE:BDE1 10117.diff_tp")), (Read ("BDE:BDE1 10118.diff_tp")),
+                                 (Read ("BDE:BDE1 10119.diff_tp")), (Read ("BDE:BDE1 10120.diff_tp")),
+                                 (Read ("BDE:BDE1 10121.diff_tp")), (Read ("BDE:BDE1 10122.diff_tp")),
+                                 (Read ("BDE:BDE1 10123.diff_tp")), (Read ("BDE:BDE1 10124.diff_tp")),
+                                 (Read ("BDE:BDE1 10125.diff_tp")), (Read ("BDE:BDE1 10126.diff_tp")),
+                                 (Read ("BDE:BDE1 10127.diff_tp")), (Read ("BDE:BDE1 10128.diff_tp")),
+                                 (Read ("BDE:BDE1 10129.diff_tp")))
